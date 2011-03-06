@@ -44,13 +44,7 @@ def load_code_object(filename):
 		return None
 
 def walk_code_object(code_object):
-	if hasattr(code_object, 'co_code'):
-		code_object_tree = []
-		code_object_tree.append(code_object)
-		code_object_tree.append(filter(None, map(walk_code_object, code_object.co_consts)))
-		return code_object_tree
-	else:
-		return None
+	return [code_object, [walk_code_object(const) for const in code_object.co_consts if hasattr(const, 'co_code')]]
 
 def html_format(text):
 	escape_list = (('&', '&amp;'), ('\x09', '&nbsp;&nbsp;&nbsp;&nbsp;'), ('\x20', '&nbsp;'), ('<', '&lt;'), ('>', '&gt;'), ('"', '&quot;'), ('\'', '&apos;'), ('\n', '<br>'))
