@@ -511,7 +511,7 @@ class MainWindow(QtGui.QMainWindow):
 	def open_file_list(self, file_list):
 		map(lambda x:fill_model(walk_code_object(load_code_object(x)), self.code_object_view.model()), file_list)
 
-	def handling_code_object(self, code_object, code_object_path):
+	def handle_code_object(self, code_object, code_object_path):
 		self.summary_view.setHtml(generate_summary(code_object), 
 			QtCore.QUrl('pycode://summary/%s/' % code_object_path))
 		self.disassembly_view.setHtml(generate_disassembly(code_object), 
@@ -519,7 +519,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.hex_edit.set_data_source(HexViewCodeObjectSource(code_object))
 		self.statusBar().showMessage(code_object.co_filename)
 
-	def handling_pycode_url(self, url):
+	def handle_pycode_url(self, url):
 		if url.scheme() != 'pycode':
 			return
 		host = url.host()
@@ -571,15 +571,15 @@ class MainWindow(QtGui.QMainWindow):
 	def on_code_object_view_current_changed(self, current, previous):
 		code_object = current.data(QtCore.Qt.UserRole + 1).toPyObject()
 		code_object_path = map_model_index_to_path(current)
-		self.handling_code_object(code_object, code_object_path)
+		self.handle_code_object(code_object, code_object_path)
 
 	@QtCore.pyqtSlot(QtCore.QUrl)
 	def on_summary_view_link_clicked(self, url):
-		self.handling_pycode_url(url)
+		self.handle_pycode_url(url)
 
 	@QtCore.pyqtSlot(QtCore.QUrl)
 	def on_disassembly_view_link_clicked(self, url):
-		self.handling_pycode_url(url)
+		self.handle_pycode_url(url)
 
 	@QtCore.pyqtSlot(bool)
 	def on_menu_bar_open_triggered(self, checked=False):
