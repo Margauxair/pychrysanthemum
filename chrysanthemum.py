@@ -503,6 +503,8 @@ class MainWindow(QtGui.QMainWindow):
 		self.setWindowIcon(QtGui.QIcon(':/images/icon.png'))
 		self.setAcceptDrops(True)
 		self.resize(1024, 768)
+		
+		self.setGeometry(QtGui.QStyle.alignedRect(QtCore.Qt.LeftToRight, QtCore.Qt.AlignCenter, self.size(), QtGui.QDesktopWidget().availableGeometry()))
 
 		self.close()
 
